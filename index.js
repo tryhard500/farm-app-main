@@ -147,17 +147,14 @@ async function changePrices() {
     let item = await Shop.find();
 
     item[0].buyPrice = getRandomInt(25, 35);
-    await item[0].save();
     item[0].harvestPrice = getRandomInt(35, 45);
     await item[0].save();
 
     item[1].buyPrice = getRandomInt(12, 18);
-    await item[1].save();
     item[1].harvestPrice = getRandomInt(18, 30);
     await item[1].save();
 
     item[2].buyPrice = getRandomInt(1, 5);
-    await item[2].save();
     item[2].harvestPrice = getRandomInt(5, 10);
     await item[2].save();
 }

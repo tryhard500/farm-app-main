@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.locale('ru');
-dayjs.extend(relativeTime)
+dayjs.extend(relativeTime);
 
 export default {
 	data() {
@@ -46,8 +46,12 @@ export default {
         },
 
         getTimeToHarvest(date) {
-            dayjs.extend(relativeTime)
-            return dayjs(date).fromNow(true)
+            let day = dayjs(date);
+            let now = dayjs();
+            if (now > day) {
+                return 'Готово!'
+            }
+            return day.fromNow()
         },
 
         async buy(evt) {
@@ -61,11 +65,11 @@ export default {
         },
 
         async harvest(item) {
-            let id = item._id
-            await axios.post('/garden/harvest', {
-                id: id
+            axios.post('/garden/harvest', {
+                id: item._id
             });
             this.loadUser()
+            this.loadGarden()
         }
 
 	},
@@ -160,7 +164,7 @@ export default {
                     @click="harvest(item)"
                 >
 					<img :src="'src/assets/'+ item.image +'.png'">
-					<p>Через {{ getTimeToHarvest(item.timeToHarvest) }}</p>
+					<p> {{ getTimeToHarvest(item.timeToHarvest) }}</p>
 				</div>
 			</div>
 		</div>
